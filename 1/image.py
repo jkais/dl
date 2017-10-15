@@ -1,9 +1,14 @@
 import numpy as np
+import scipy
+from scipy import ndimage
 
-my_image = "my_image.jpg"   # change this to the name of your image file
+my_image = "cat.jpg"   # change this to the name of your image file
 
 # We preprocess the image to fit your algorithm.
 fname = "images/" + my_image
 image = np.array(ndimage.imread(fname, flatten=False))
+num_px = 64
 my_image = scipy.misc.imresize(image, size=(num_px,num_px)).reshape((1, num_px*num_px*3)).T
-my_predicted_image = predict(d["w"], d["b"], my_image)
+
+
+print(my_image).shape
