@@ -288,15 +288,13 @@ def L_layer_model(X, Y, layers_dims, learning_rate=0.0075, num_iterations=3000, 
         AL, caches = L_model_forward(X, parameters)
         cost = compute_cost(AL, Y)
 
+        grads = L_model_backward(AL, Y, caches)
+        parameters = update_parameters(parameters, grads, learning_rate)
+
         if print_cost and i % 100 == 0:
             print ("Cost after iteration %i: %f" %(i, cost))
-        if print_cost and i % 100 == 0:
             costs.append(cost)
 
-        grads = L_model_backward(AL, Y, caches)
-       	parameters = update_parameters(parameters, grads, learning_rate)
-
     return parameters
-
 
 L_layer_model(train_x, train_y, layers_dims, print_cost=True)
