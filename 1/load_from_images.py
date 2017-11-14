@@ -27,6 +27,7 @@ for index, filename in enumerate(images):
         print("According to the filename it's a cat.")
         image_classes[index] = True
     resized_image_filename = re.sub("^images/", "images/thumbs/", filename)
+    resized_image_filename = re.sub(".jpg$", ".png", resized_image_filename)
     plt.imsave(resized_image_filename, resized_image)
     print("generated thumbnail " + resized_image_filename)
 
