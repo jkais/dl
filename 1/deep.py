@@ -14,6 +14,9 @@ train_x = train_x_flatten/255
 
 layers_dims = [12288, 20, 7, 5, 1]
 
+# the code puts train_y into a (1,train_x.shape[0]) np.array
+train_y = train_y.reshape(1, train_y.shape[0])
+
 
 def initialize_parameters_deep(layers_dims):
     parameters = {}
@@ -101,6 +104,7 @@ def L_model_forward(X, parameters):
 
     caches = []
     A = X
+    # why not - 2?
     L = len(parameters) // 2  # number of layers in the neural network
 
     # Implement [LINEAR -> RELU]*(L-1). Add "cache" to the "caches" list.
@@ -118,13 +122,42 @@ def L_model_forward(X, parameters):
     return AL, caches
 
 
+def compute_cost(AL, Y):
+    """
+    Implement the cost function defined by equation (7).
+
+    Arguments:
+    AL -- probability vector corresponding to your label predictions, shape (1, number of examples)
+    Y -- true "label" vector (for example: containing 0 if non-cat, 1 if cat), shape (1, number of examples)
+
+    Returns:
+    cost -- cross-entropy cost
+    """
+
+    m = Y.shape[1]
+
+    # Compute loss from aL and y.
+    logprobs = np.multiply(np.log(AL), Y) + np.multiply(np.log(1 - AL), (1 - Y))
+    cost = - np.sum(logprobs)/m
+
+    cost = np.squeeze(cost)      # To make sure your cost's shape is what we expect (e.g. this turns [[17]] into 17).
+    assert(cost.shape == ())
+
+    return cost
+
+
 def L_layer_model(X, Y, layers_dims, learning_rate=0.0075, num_iterations=3000, print_cost=False):
     costs = []
     parameters = initialize_parameters_deep(layers_dims)
 
     for i in range(0, num_iterations):
-        print(str(i))
-        AL, caches = L_model_forward(X, parameters) 
+        AL, caches = L_model_forward(X, parameters)
+        cost = compute_cost(AL, Y)
+
+        if print_cost and i % 100 == 0:
+            print ("Cost after iteration %i: %f" %(i, cost))
+        if print_cost and i % 100 == 0:
+            costs.append(cost)
 
 
-L_layer_model(train_x, train_y, layers_dims)
+L_layer_model(train_x, train_y, layers_dims, print_cost=True)
