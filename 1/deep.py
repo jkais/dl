@@ -275,7 +275,7 @@ def update_parameters(parameters, grads, learning_rate):
     return parameters
 
 
-def L_layer_model(X, Y, layers_dims, learning_rate=0.0075, num_iterations=3000, print_cost=False):
+def L_layer_model(X, Y, layers_dims, learning_rate=0.075, num_iterations=3000, print_cost=False):
     costs = []
     parameters = initialize_parameters_deep(layers_dims)
 
@@ -299,4 +299,40 @@ def L_layer_model(X, Y, layers_dims, learning_rate=0.0075, num_iterations=3000, 
     return parameters
 
 
+def predict(X, y, parameters):
+    """
+    This function is used to predict the results of a  L-layer neural network.
+
+    Arguments:
+    X -- data set of examples you would like to label
+    parameters -- parameters of the trained model
+
+    Returns:
+    p -- predictions for the given dataset X
+    """
+
+    m = X.shape[1]
+    p = np.zeros((1, m))
+
+    # Forward propagation
+    probas, caches = L_model_forward(X, parameters)
+
+    # convert probas to 0/1 predictions
+    for i in range(0, probas.shape[1]):
+        if probas[0, i] > 0.5:
+            p[0, i] = 1
+        else:
+            p[0, i] = 0
+
+    # print results
+    # print ("predictions: " + str(p))
+    # print ("true labels: " + str(y))
+    print("Percentage of cat pics: " + str(np.sum((y == 1) / float(m))))
+    print("Accuracy: " + str(np.sum((p == y) / float(m))))
+
+    return p
+
+
 parameters = L_layer_model(train_x, train_y, layers_dims, print_cost=True)
+
+predict(train_x, train_y, parameters)
