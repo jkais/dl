@@ -1,9 +1,10 @@
 import numpy as np
 import h5py
+import matplotlib.pyplot as plt
 
 with h5py.File('images.hdf5', 'r') as f:
-        train_x_orig = f['parsed_images'][()]
-        train_y = f['image_classes'][()]
+    train_x_orig = f['parsed_images'][()]
+    train_y = f['image_classes'][()]
 
 print("Number of training examples: " + str(train_x_orig.shape[0]))
 print("Number of training results: " + str(train_y.shape[0]))
@@ -288,6 +289,12 @@ def L_layer_model(X, Y, layers_dims, learning_rate=0.0075, num_iterations=3000, 
         if print_cost and i % 100 == 0:
             print ("Cost after iteration %i: %f" % (i, cost))
             costs.append(cost)
+
+    plt.plot(np.squeeze(costs))
+    plt.ylabel('cost')
+    plt.xlabel('iterations (per tens)')
+    plt.title("Learning rate =" + str(learning_rate))
+    plt.savefig("test.svg")
 
     return parameters
 
