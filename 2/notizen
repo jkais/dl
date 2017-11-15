@@ -1,0 +1,53 @@
+SETTING UP YOUR APP
+
+Train / Dev / Test Sets:
+- train set
+- hold-out cross validation / development set
+- test set
+
+- Früher 60/20/20 Ratio
+- Big Data Trend: Bei Millionen Daten wäre z.B. 98/1/1 okay oder gar noch mehr
+
+- Dev, Train und Test Sets aus der selben Datenquelle, möglichst nah am realen Einsatzzweck (z.B. keine Agentur-Bilder, wenn User Content später verwendet wird)
+
+Bias and Variance
+- Overfitting vs Underfitting
+- Train Set error and Dev Set error
+- niedriger Training Set Error und hoher Dev Set Error: Overfitting, High Variance
+- hoher Training Set Error und ähnlich hoher Dev Set Error: Underfitting, High Bias
+- hoher Training Set Error und viel höherer Dev Set Error: High Bias, High Variance
+- niedriger TSE, niedriger DSE: Low Bias, Low Variance
+
+Basic Recipe for ML
+1. High Bias? (= training data performance) -> Bigger Network, Train longer, maybe change architecture
+2. High Variance? (= dev set performance) -> More data, Regularization, maybe change architecture
+
+- Früher hat Reduzierung des Bias die Variance erhöht und umgekehrt, heute eigentlich nicht mehr
+
+
+REGULARIZATION
+Bei Linear Regression:
+- L2 regularization, lambda/2m * euclidian norm of w, summe von w²
+- euclidian norm: np.dot(w.T, w)
+- L1 regularization: lambda/2m  * summe von |w|
+- Lambda - regularization parameter, ist ein Hyperparameter
+
+Im Neural Network:
+- Wie L2 bei LR, nur halt als Summe über alle W
+- Frobenius Norm
+- In der Backpropagation landet ein neuer Therm: lambda/m * W
+- Beim Updaten der Weights wird also alpha*lambda/m * W abgezogen. Deswegen: Weight Decay
+
+- Warum löst L2 Regularization Overfitting? Es erzwingt kleinere Ws. Dadurch machen die einzelnen Layer des Netzes nicht mehr so komplizierte Dinge.
+- Bei z.B. tanh als Aktivierungsfunktion sind die Werte für kleine Ws nahe 0 und somit quasi linear. Je mehr Layer quasi linear arbeiten, umso mehr ist das gesamte Netz quasi linear
+
+- Achtung: Durch Hinzufügen der Frobenius-Norm in der Kostenfunktion lässt sich nicht mehr zwingend eine von Iteration zu Iteration monoton fallende Kostenfunktion beobachten!
+
+Dropouts:
+- Mit einer gewissen Wahrscheinlichkeit (z.B. 50%) wird eine Node aus dem Netz geworfen
+Inverted Dropout:
+- Erstelle für jeden Trainingslauf eine Dropout-Matrix d pro Layer
+- np.random.rand(a.shape[0], a.shape[1] < keep_probability # keep_probability z.B. 0.8
+- a = np.multiply(a, d) # Setze alle Werte von a auf 0, wo d false ist
+- a /= keep_probability # Erhöhe noch vorhandene Werte von a, damit der Gesamt-Output des Layers prozentual gleich bleibt
+- Dropout nur in Training, nicht in Test -> keep_probability = 1.0
