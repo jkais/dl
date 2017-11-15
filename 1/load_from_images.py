@@ -12,7 +12,7 @@ f = h5py.File(data_file, "w")
 images = glob.glob('images/*.jpg')
 images_count = len(images)
 parsed_images = np.empty((images_count, pixels, pixels, 3))
-image_classes = np.empty((images_count), dtype=bool)
+image_classes = np.empty((images_count))
 
 for index, filename in enumerate(images):
     print("Parsing " + str(index) + ": " + filename + "...")
