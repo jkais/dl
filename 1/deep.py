@@ -100,7 +100,6 @@ def L_model_forward(X, parameters):
 
     caches = []
     A = X
-    # why not - 2?
     L = len(parameters) // 2  # number of layers in the neural network
 
     # Implement [LINEAR -> RELU]*(L-1). Add "cache" to the "caches" list.
@@ -275,7 +274,7 @@ def update_parameters(parameters, grads, learning_rate):
     return parameters
 
 
-def L_layer_model(X, Y, layers_dims, learning_rate=0.075, num_iterations=3000, print_cost=False):
+def L_layer_model(X, Y, layers_dims, learning_rate=0.0075, num_iterations=3000, print_cost=False):
     costs = []
     parameters = initialize_parameters_deep(layers_dims)
 
@@ -325,9 +324,8 @@ def predict(X, y, parameters):
             p[0, i] = 0
 
     # print results
-    # print ("predictions: " + str(p))
-    # print ("true labels: " + str(y))
-    print("Percentage of cat pics: " + str(np.sum((y == 1) / float(m))))
+    print ("predictions: " + str(p))
+    print ("true labels: " + str(y))
     print("Accuracy: " + str(np.sum((p == y) / float(m))))
 
     return p
