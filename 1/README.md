@@ -1,5 +1,13 @@
-# Run stuff with pipenv
+# Update picture data in images.hdf5
 
 ```
-pipenv run python script.py
+python load_from_images.py
 ```
+
+# Run the net
+
+```
+python load_from_images.py
+```
+
+Sadly it is broken.
