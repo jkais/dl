@@ -36,7 +36,7 @@ Im Neural Network:
 - Wie L2 bei LR, nur halt als Summe über alle W
 - Frobenius Norm
 - In der Backpropagation landet ein neuer Therm: lambda/m * W
-- Beim Updaten der Weights wird also alpha*lambda/m * W abgezogen. Deswegen: Weight Decay
+- Beim Updaten der Weights wird also alpha*lambda/m * W abgezogen. Deswegen: Weight Deca
 
 - Warum löst L2 Regularization Overfitting? Es erzwingt kleinere Ws. Dadurch machen die einzelnen Layer des Netzes nicht mehr so komplizierte Dinge.
 - Bei z.B. tanh als Aktivierungsfunktion sind die Werte für kleine Ws nahe 0 und somit quasi linear. Je mehr Layer quasi linear arbeiten, umso mehr ist das gesamte Netz quasi linear
@@ -51,3 +51,55 @@ Inverted Dropout:
 - a = np.multiply(a, d) # Setze alle Werte von a auf 0, wo d false ist
 - a /= keep_probability # Erhöhe noch vorhandene Werte von a, damit der Gesamt-Output des Layers prozentual gleich bleibt
 - Dropout nur in Training, nicht in Test -> keep_probability = 1.0
+
+- Eine Node kann sich nicht mehr nur auf einen starken Vorgänger verlassen, muss die Weights verteilen
+
+- keep_prob pro Layer durchaus sinnvoll
+- Nur wenn man Overfitting-Probleme hat, machen Dropouts Sinn (z.B. Computer Vision)
+
+andere Techniken:
+- Data Augmentation: z.B. Bilder horizontal spiegeln, zoomen, rotieren...
+- Early Stopping: Dev Set Error betrachten, sobald der sich erhöht, anhalten; Als zusätzlicher Hyperparameter macht es die Sache aber nicht leichter
+
+SETUP
+Normalization:
+- Subtract the mean: Durchschnitt ausrechnen, von allen Werten abziehen => Normiert die Werte rund um 0
+- Normalize variances: variance = 1/m sum xi²; x /= variance
+- Normalisieren von Training und Dev/Test mit den gleichen Werten
+- Linear Gradient auf der Kostenfunktion wird viel einfacher
+
+Vanishing / Exploding Gradients: Tiefe Netze können Ergebnisse exponentiell groß oder klein werden lassen
+- Lösung Weight Initialization
+- Var(w) = 1/n (n = Anzahl der Eingänge), W = np.random.randn(shape) * np.sqrt(1/n)
+- Bei RELU var => 2/n besser
+- tanh var => 1/n (Xavier Initialization)
+
+Gradient Checking:
+- W1, b1, W2, b2, ..., WL, bL in einen großen Vektor Theta konkatenieren
+- Ebenso dW1, db1, ..., dWL, dbL
+- Für jedes i: dApproxt i = J(t1, t2, ..., ti + e, ti+1,...) - J(t1, ..., ti - e, ...) / 2e
+- Ist dApproxt ungefähr gleich dt?
+- Euklidischer Abstand: ||dApproxt - dt||2  # ||x - y||2 = sqrt sum (xi - yi)²
+- Den teilen durch die Summe der Länge beider Matritzen
+- e = 10^-7 ist ganz gut
+- Dann sollten die Werte im Bereich 10^-7 liegen; spätestens bei 10^-3 gibt es wohl einen Bug
+
+
+INITIALIZATION:
+
+He Initialization:
+
+    for l in range(1, L + 1):
+        ### START CODE HERE ### (≈ 2 lines of code)
+        parameters['W' + str(l)] = np.random.randn(layers_dims[l], layers_dims[l-1]) * np.sqrt(2./layers_dims[l-1])
+        parameters['b' + str(l)] = np.zeros((layers_dims[l], 1))
+        ### END CODE HERE ###
+
+
+Tipps zu Grad Checking:
+- Nicht im regulären Training, nur zum Debuggen
+- Wenn auffällig, Theta angucken, welche Werte sind betroffen?
+- Regularization nicht vergessen!
+- Grad Checking geht nicht mit Dropouts!
+
+
