@@ -1,5 +1,6 @@
 import numpy as np
 
+
 def initialize_parameters_deep(layers_dims):
     parameters = {}
     L = len(layers_dims)            # number of layers in the network
