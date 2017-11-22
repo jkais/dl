@@ -9,7 +9,7 @@ def dictionary_to_vector(parameters):
     """
     keys = []
     count = 0
-    for key in ["W1", "b1", "W2", "b2", "W3", "b3"]:
+    for key in ["W1", "b1", "W2", "b2", "W3", "b3", "W4", "b4"]:
 
         # flatten parameter
         new_vector = np.reshape(parameters[key], (-1,1))
@@ -29,7 +29,7 @@ def vector_to_dictionary(theta):
     Unroll all our parameters dictionary from a single vector satisfying our specific required shape.
     """
     parameters = {}
-    parameters["W1"] = theta[:20].reshape((5,4))
+    parameters["W1"] = theta[:245760].reshape((12288,20))
     parameters["b1"] = theta[20:25].reshape((5,1))
     parameters["W2"] = theta[25:40].reshape((3,5))
     parameters["b2"] = theta[40:43].reshape((3,1))
@@ -45,7 +45,7 @@ def gradients_to_vector(gradients):
     """
 
     count = 0
-    for key in ["dW1", "db1", "dW2", "db2", "dW3", "db3"]:
+    for key in ["dW1", "db1", "dW2", "db2", "dW3", "db3", "dW3", "db4"]:
         # flatten parameter
         new_vector = np.reshape(gradients[key], (-1,1))
 
