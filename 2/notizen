@@ -1,5 +1,5 @@
 SETTING UP YOUR APP
-
+===================
 Train / Dev / Test Sets:
 - train set
 - hold-out cross validation / development set
@@ -102,4 +102,42 @@ Tipps zu Grad Checking:
 - Regularization nicht vergessen!
 - Grad Checking geht nicht mit Dropouts!
 
+
+
+
+MINI BATCH GRADIENT DESCENT
+
+- nicht alle Examples in einem Gradient-Descent-Durchlauf nehmen
+- stattdessen Mini Batches X{1},... und Y{1}...
+- forward_prop, costs (für Mini Batch), backward_prop wie gewohnt
+- einmal alle Traingsdaten durchgelaufen = 1 epoch
+- mehrere epochs durchlaufen
+- Cost function ist pro Durchlauf nicht mehr monoton fallend, sollte aber fallend sein
+- Batch-Größe: size = m => Batch Gradient Descent; size = 1 Stochastic Gradient Descent
+- Stochastic Gradient Descent ist sehr noisy
+- Größe deswegen zwischen 1 und m gut wählen
+- m: dauert pro Iteration zu lange
+- 1: Noise, ebenfalls langsam, weil für jedes example f, c, b berechnet werden muss
+- Wenig Examples (< 2000): Nimm m!
+- 64 - 512 ist üblich, gerne 2^x
+- Minibatch sollte vollständig in den Speicher passen
+- Batch Size kann Hyperparameter sein
+
+EXPONENTIALLY WEIGHTED AVERAGES
+- Vt = beta * Vt-1 + (1 - beta)*thetat
+- Ergibt quasi den Durchschnitt über 1/(1 - beta) Daten. (beta = 0.9 => 1/0.1 => 10)
+- Bias Correction: Da die Vorgänger von Vt anfangs alle 0 sind, startet die Kurve tief, muss angepasst werden
+- Dafür berechnen wir Vt = Vt/(1 - beta^t)
+
+GRADIENT DESCENT WITH MOMENTUM
+- Wir nehmen EWA nach der Berechnung von dW und db, um Momentum zu generieren
+- Das ist mehr oder weniger Velocity +/- acceleration in Richtung des Descents
+- beta als 0.9 ist meist prima
+- Bias Correction wird in der Praxis selten gemacht, da sich der Algorhytmus nach etwa 10 Durchläufen gut "aufgewärmt" hat
+
+RMSprop
+- RootMeanSquare prop?
+- SdW = beta*SdW + (1-beta)dW^2
+- w := w - alpha * dW/ sdW^-2
+- Im Nenner in der Praxis ein kleines epsilon wie 10^-8 nehmen
 
