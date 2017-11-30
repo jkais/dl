@@ -141,3 +141,19 @@ RMSprop
 - w := w - alpha * dW/ SdW^-2
 - Im Nenner in der Praxis ein kleines epsilon wie 10^-8 nehmen
 
+
+WEEK 3
+
+Hyperparameter Tuning
+- Wichtigster ist wohl LearningRate
+- Momentum, # hidden_units, mini batch size dann
+- Dann Layer-Anzahl, learning rate decay
+- Adam ist eigentlich immer b1 = 0.9, b2 = 0.99, e = 10^-8
+- Zufallsparameter beim Probieren verwenden
+- Zufallsparameter möglichst logarythmisch wählen
+- z.B. für Werte zwischen 0.0001 und 1: r = -4 * np.rand.random(); a = 10^r
+- Tuning über Zeit: Panda - Ein Model über Zeit optimieren; Caviar - Viele Modelle parallel und über Zeit vergleichen
+
+Batch Normalization
+- Nicht nur die Inputs normalizieren, sondern die Zi in den Layern, also vor der Aktivierungsfunktion
+- Allerdings mit Hyperparametern: Zi = gamma*Zinorm + beta oder so
