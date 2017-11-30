@@ -138,6 +138,6 @@ GRADIENT DESCENT WITH MOMENTUM
 RMSprop
 - RootMeanSquare prop?
 - SdW = beta*SdW + (1-beta)dW^2
-- w := w - alpha * dW/ sdW^-2
+- w := w - alpha * dW/ SdW^-2
 - Im Nenner in der Praxis ein kleines epsilon wie 10^-8 nehmen
 
