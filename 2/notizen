@@ -141,6 +141,29 @@ RMSprop
 - w := w - alpha * dW/ SdW^-2
 - Im Nenner in der Praxis ein kleines epsilon wie 10^-8 nehmen
 
+ADAM - ADapted Moment estimation
+- Momentum und RMSprop
+- Berechne dW, db
+- Momentum: VdW = beta1 * VdW + (1 - beta1)*dW
+- RMSprop: SdW = beta2 * SdW + (1 - beta2)*dW^2
+- Bias Correction:VdW = VdW /(1 - beta1^t)
+- Bias Correction:SdW = SdW /(1 - beta2^t)
+- Corrected: W = W - alpha * VdW / (SdW^-2 + epsilon)
+- b analog
+
+Hyperparameter:
+- alpha: needs tuning
+- beta1: 0.9 ist ganz gut
+- beta2: 0.99 ist ganz gut
+- epsilon: 10^-8, ist aber ziemlich egal
+
+LEARNING RATE DECAY
+- alpha kleiner machen, je weiter man optimiert hat
+- alpha = alpha_zero * 1 / (1 + decay_rate*epoch_num)
+- alpha = 0.95^epoch_num * alpha_zero
+
+- Lokale Optima ist kein wirkliches Problem im hochdimensionalen Raum
+- Plateus sind viel mehr ein Problem, weil man da nur sehr langsam herunter kommt
 
 WEEK 3
 
